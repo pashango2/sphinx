@@ -163,8 +163,12 @@ class Sphinx(object):
 
         # read config
         self.tags = Tags(tags)
+
+        config_globals = {
+            '__buildername__': buildername,
+        }
         self.config = Config(confdir, CONFIG_FILENAME,
-                             confoverrides or {}, self.tags)
+                             confoverrides or {}, self.tags, config_globals)
         self.config.check_unicode()
         # defer checking types until i18n has been initialized
 

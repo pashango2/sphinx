@@ -134,8 +134,8 @@ class Config(object):
         tls_cacerts = (None, 'env'),
     )  # type: Dict[unicode, Tuple]
 
-    def __init__(self, dirname, filename, overrides, tags):
-        # type: (unicode, unicode, Dict, Tags) -> None
+    def __init__(self, dirname, filename, overrides, tags, config_globals=None):
+        # type: (unicode, unicode, Dict, Tags, Dict[unicode, Any]) -> None
         self.overrides = overrides
         self.values = Config.config_values.copy()
         config = {}  # type: Dict[unicode, Any]
@@ -143,6 +143,8 @@ class Config(object):
             config_file = path.join(dirname, filename)
             config['__file__'] = config_file
             config['tags'] = tags
+            if config_globals:
+                config.update(config_globals)
             with cd(dirname):
                 # we promise to have the config dir as current dir while the
                 # config file is executed
